@@ -1,7 +1,6 @@
 const SECTIONS = [
   { id: 'prices', label: '시세 비교' },
   { id: 'estimated-liq', label: '추정 청산맵' },
-  { id: 'realtime-liq', label: '실시간 청산' },
   { id: 'dca', label: '물타기 계산' },
 ] as const
 

@@ -40,42 +40,12 @@ export interface ExchangeStatus {
   lastUpdated: number | null
 }
 
-export type LiquidationWindow = '1h' | '4h' | '24h'
-
-export type LiquidationSide = 'long' | 'short'
-
-export interface LiquidationEvent {
-  id: string
-  symbol: CoinSymbol
-  side: LiquidationSide
-  price: number
-  quantity: number
-  usdtValue: number
-  timestamp: number
-}
-
 export interface LiquidationBucket {
   priceLow: number
   priceHigh: number
   usdtValue: number
   count: number
   distancePercent: number
-}
-
-export interface LiquidationSummary {
-  longTotal: number
-  shortTotal: number
-  longCount: number
-  shortCount: number
-  largestLongBucket: LiquidationBucket | null
-  largestShortBucket: LiquidationBucket | null
-}
-
-export interface LiquidationMapData {
-  longBuckets: LiquidationBucket[]
-  shortBuckets: LiquidationBucket[]
-  summary: LiquidationSummary
-  recentEvents: LiquidationEvent[]
 }
 
 export interface OiSnapshot {

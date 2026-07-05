@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { CoinComparisonTable } from './components/CoinComparisonTable'
 import { EstimatedLiquidationMapPanel } from './components/EstimatedLiquidationMapPanel'
-import { LiquidationMapPanel } from './components/LiquidationMapPanel'
 import { DcaCalculator } from './components/DcaCalculator'
 import { Header } from './components/Header'
 import { PeriodTabs } from './components/PeriodTabs'
@@ -46,10 +45,6 @@ function App() {
 
       <section id="estimated-liq" className="scroll-mt-20 mt-10">
         <EstimatedLiquidationMapPanel getBinancePrice={getBinancePrice} />
-      </section>
-
-      <section id="realtime-liq" className="scroll-mt-20 mt-10">
-        <LiquidationMapPanel getBinancePrice={getBinancePrice} />
       </section>
 
       <section id="dca" className="scroll-mt-20 mt-10">

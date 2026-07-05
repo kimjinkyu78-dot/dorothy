@@ -24,8 +24,6 @@ export const LIQUIDATION_BUCKET_SIZE: Record<CoinSymbol, number> = {
   DOGE: 0.0005,
 }
 
-export const LIQUIDATION_WINDOWS = ['1h', '4h', '24h'] as const
-
 /** OI 추정 청산맵: 유지증거금률 */
 export const ESTIMATED_MMR = 0.005
 

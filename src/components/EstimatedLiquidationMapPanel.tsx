@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { COINS } from '../config/coins'
 import { ConnectionBadge } from './ConnectionBadge'
-import type { CoinSymbol, EstimatedLiquidationSummary, LiquidationBucket, OiSnapshot } from '../types'
+import type { CoinSymbol, EstimatedLiquidationSummary, LiquidationBucket } from '../types'
 import { useEstimatedLiquidationMap } from '../hooks/useEstimatedLiquidationMap'
 import { filterBucketsBySide } from '../utils/estimatedLiquidationMap'
 import { bucketIntensityPercent } from '../utils/liquidationBuckets'
 import {
-  formatDateTime,
   formatPercent,
   formatUsdt,
   formatUsdtCompact,
@@ -34,8 +33,6 @@ export function EstimatedLiquidationMapPanel({
     shortBuckets[0]?.usdtValue ?? 0,
   )
 
-  const oi = mapData.oiSnapshot
-
   return (
     <section className="rounded-2xl border border-violet-900/50 bg-slate-900/70 p-5">
       <header className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -49,13 +46,6 @@ export function EstimatedLiquidationMapPanel({
             <span className="font-semibold text-violet-300">
               {currentPrice > 0 ? `$${formatUsdt(currentPrice)}` : '시세 로딩 중...'}
             </span>
-            {oi && (
-              <>
-                {' · '}
-                OI {formatUsdtCompact(oi.oiUsdt)} · 롱 {(oi.longRatio * 100).toFixed(1)}% / 숏{' '}
-                {(oi.shortRatio * 100).toFixed(1)}%
-              </>
-            )}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -90,8 +80,6 @@ export function EstimatedLiquidationMapPanel({
         </select>
       </div>
 
-      {oi && <OiMetaCards oi={oi} />}
-
       <SummaryCards summary={mapData.summary} />
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -118,42 +106,8 @@ export function EstimatedLiquidationMapPanel({
       <p className="mt-4 text-xs text-slate-500">
         OI·탑트레이더 롱/숏 포지션 비율과 레버리지/진입가 분포를 가정한 추정치입니다. CoinGlass 등
         상용 청산맵과 모델 차이로 수치가 다를 수 있으며, 30초마다 갱신됩니다.
-        {oi && ` 마지막 OI 갱신: ${formatDateTime(oi.updatedAt)}`}
       </p>
     </section>
-  )
-}
-
-function OiMetaCards({ oi }: { oi: OiSnapshot }) {
-  return (
-    <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-      <MetaCard label="총 OI (USDT)" value={formatUsdtCompact(oi.oiUsdt)} />
-      <MetaCard
-        label="롱 OI 추정"
-        value={formatUsdtCompact(oi.longOiUsdt)}
-        sub={`${(oi.longRatio * 100).toFixed(1)}%`}
-      />
-      <MetaCard
-        label="숏 OI 추정"
-        value={formatUsdtCompact(oi.shortOiUsdt)}
-        sub={`${(oi.shortRatio * 100).toFixed(1)}%`}
-      />
-      <MetaCard
-        label="마크 가격"
-        value={`$${formatUsdt(oi.markPrice)}`}
-        sub={formatDateTime(oi.updatedAt)}
-      />
-    </div>
-  )
-}
-
-function MetaCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
-  return (
-    <div className="rounded-xl border border-violet-900/30 bg-slate-950/60 p-3">
-      <p className="text-xs text-slate-400">{label}</p>
-      <p className="mt-1 text-lg font-bold text-violet-200">{value}</p>
-      {sub && <p className="mt-1 text-xs text-slate-500">{sub}</p>}
-    </div>
   )
 }
 
